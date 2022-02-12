@@ -4,8 +4,10 @@ services:
     image: "mongo"
     ports:
       - "10000:27017"
-    volumes:
-      - $HOME/mongoRepl/mongo1:/data/db
+    volumes: # container -> local로 mount할 수 있습니다.
+      - type: bind
+        source: ./data/db # local 경로
+        target: /data/db  # container 내부에서의 경로
     networks:
       - mongo-networks
     command: mongod --replSet replication
@@ -13,8 +15,10 @@ services:
     image: "mongo"
     ports:
       - "10001:27017"
-    volumes:
-      - $HOME/mongoRepl/mongo2:/data/db
+    volumes: # container -> local로 mount할 수 있습니다.
+      - type: bind
+        source: ./data2/db # local 경로
+        target: /data2/db  # container 내부에서의 경로
     networks:
       - mongo-networks
     command: mongod --replSet replication
@@ -24,15 +28,17 @@ services:
     image: "mongo"
     ports:
       - "10002:27017"
-    volumes:
-      - $HOME/mongoRepl/mongo3:/data/db
+    volumes: # container -> local로 mount할 수 있습니다.
+      - type: bind
+        source: ./data3/db # local 경로
+        target: /data3/db  # container 내부에서의 경로
     networks:
       - mongo-networks
     command: mongod --replSet replication
     depends_on:
       - mongo2
   mongosetup:
-    image: "setup-rspl"
+    image: "mongo-setup"
     depends_on:
       - mongo1
     networks:
