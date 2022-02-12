@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2' # in 3 , there is volumes issue ...
 services:
   mongo1:
     image: "mongo"
